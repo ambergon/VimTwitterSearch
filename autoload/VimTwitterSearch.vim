@@ -14,20 +14,14 @@ if !exists( 'g:VimTwitterSearchWords' )
 endif
 
 
-" filter:image
-" filter:media
-" 含めるならinclude / 含めないならexclude
-" 結果にリプライを含める。
-" exclude:replies
-" リツイートを含む
-" exclude:nativeretweets
+" ! を取り除けば有効化できるように。
 if !exists( 'g:VimTwitterSearchOptions' )
-    let g:VimTwitterSearchOptions   = [ "exclude:replies" , "exclude:nativeretweets" , "filter:images"]
+    let g:VimTwitterSearchOptions   = [ "!exclude:replies" , "!exclude:nativeretweets" , "!filter:images" , "!filter:madia" ]
 endif
 
 
-" 指定バッファ名のウィンドウがあればそれに移動。 return 0
-" 無ければ何ももしない。                         return 1
+" 指定バッファ名のウィンドウがあればそれに移動。
+" 無ければ何ももしない。
 function! s:SwitchToBufferByName(buffer_name)
     " 現在のウィンドウ番号を保存
     let l:current_win = winnr()
@@ -83,7 +77,7 @@ endfunction
 
 
 " 現在のバッファ名をチェックする。
-function! VimTwitterSearch#TwitterSearchCall()
+function! VimTwitterSearch#TwitterSearchOpen()
 
     let l:BASE_URL = 'https://twitter.com/search?q='
     " 行数を取得

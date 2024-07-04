@@ -16,8 +16,7 @@ let g:loaded_VimTwitterSearch = 1
 command! -nargs=0  TwitterSearch        call VimTwitterSearch#TwitterSearch()
 " ウィンドウから情報を取得する。
 " プラグインがあればそのリンクに流そう。
-command! -nargs=0  TwitterSearchCall    call VimTwitterSearch#TwitterSearchCall()
-
+command! -nargs=0  TwitterSearchOpen    call VimTwitterSearch#TwitterSearchOpen()
 
 
 
