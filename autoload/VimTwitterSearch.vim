@@ -1,11 +1,6 @@
 
 
 
-"g:VimTwitterSearchArray無ければ～。
-"execluedをどうするか。
-"カーソル位置
-
-
 
 
 
@@ -13,7 +8,22 @@
 
 " 順番通りに出力される。
 " SearchWord: だけは固定とする。
-let g:VimTwitterSearchArray = [ "SearchWord:" , "from:" , "to:" , "since:" , "until:" , "exclude:replies" , "exclude:nativeretweets" ]
+" 無ければデフォルトとしてこれを使う。
+if !exists( 'g:VimTwitterSearchWords' )
+    let g:VimTwitterSearchWords     = [ "SearchWord:" , "from:" , "to:" , "since:" , "until:" ]
+endif
+
+
+" filter:image
+" filter:media
+" 含めるならinclude / 含めないならexclude
+" 結果にリプライを含める。
+" exclude:replies
+" リツイートを含む
+" exclude:nativeretweets
+if !exists( 'g:VimTwitterSearchOptions' )
+    let g:VimTwitterSearchOptions   = [ "exclude:replies" , "exclude:nativeretweets" ]
+endif
 
 
 
@@ -22,42 +32,30 @@ function! VimTwitterSearch#TwitterSearch()
 
     setl bufhidden=delete
     setl buftype=nowrite
-
-    " 空にする。
+    " bufferを空に。
     execute '%d'
 
     let l:count = 0
-    for l:item in g:VimTwitterSearchArray
+    for l:item in g:VimTwitterSearchWords
+        call append( l:count , l:item )
+        let l:count += 1
+    endfor
+
+    for l:item in g:VimTwitterSearchOptions
         call append( l:count , l:item )
         let l:count += 1
     endfor
 
 
-    " call append( 0 , "word:")
-    " " from:@xxx
-    " call append( 1 , "from:")
-    " call append( 2 , "to:")
-    " call append( 3 , "since:")
-    " call append( 4 , "until:")
-    " " call append( 0 , "filter:image")
-    " " call append( 0 , "filter:media")
-    " "" 含めるならinclude / 含めないならexclude
-    " " 結果にリプライを含める。
-    " call append( 6 , "exclude:replies")
-    " " リツイートを含む
-    " call append( 7 , "exclude:nativeretweets")
     " 最終行を削除
     call deletebufline('%' , '$' )
-
-
+    " カーソル位置をいい感じに。
     call cursor( 1 , 12 ) 
 
 
 endfunction
 
 
-
-" call VimTwitterSearch#TwitterSearch()
 
 
 
@@ -70,22 +68,11 @@ function! VimTwitterSearch#TwitterSearchCall()
     let l:query = ""
     for l:line in getline( 0 , '$')
 
-        " :で始まる行である。
-        " 空白以外の文字列が記入されている。
-        " yyyy-mm-ddである。
-
-
-        " : 右辺が何もなければカット。
-        " あればクエリとして 半角スペースでつなげる。
-
-        " VimScriptで、左辺:右辺 で構成されるテキストか判定するコードを書け。
-
-        let l:pattern = '^\s*\S\+\s*:\s*\S\+\s*$'
-
         " 左辺:右辺 が存在する行のみ判定する。
+        let l:pattern = '^\s*\S\+\s*:\s*\S\+\s*$'
         if l:line =~ l:pattern
 
-            for l:item in g:VimTwitterSearchArray
+            for l:item in g:VimTwitterSearchWords
                 " マッチするか調査する。
                 " if match( l:line , '^from:' ) == 0
                 if match( l:line , '^' . l:item  ) == 0
@@ -101,37 +88,30 @@ function! VimTwitterSearch#TwitterSearchCall()
 
                     " マッチするなら半角スペースでつなげる。
                     let l:query = l:query . l:line . " "
+                    continue
+                endif
 
+                " include / execlued / filterから始まる行なら追加する。
+                if match( l:line , "^filter:" ) == 0 || match( l:line , "^include:" ) == 0 || match( l:line , "^execlued:" ) == 0 
+                    let l:query = l:query . l:line . " "
+                    continue
                 endif
             endfor
         endif
     endfor
     " echo l:query
     " パーセントエンコーディング
-    let l:query = denops#request( 'VimTwitterSearch', 'encode' , [ l:query ] )
     " denops#request( '${name}', 'encode' , [<q-args>])`,
+    let l:query = denops#request( 'VimTwitterSearch', 'encode' , [ l:query ] )
+    " 文末のスペースを処理
+    let l:query = substitute( l:query , '\s\+$', '', '')
 
     " echo l:query 
     let l:url = l:BASE_URL . l:query
+    " 開く。
     call openbrowser#open( l:url )
 
-
-    " vimscriptにおいて、
-    " 関数の戻り値をl:arg に代入するには?
-
-
-
-
-    " if expand( '%:p' ) == 'VimTwitter://Search'
-    "     echo "aaa"
-    " else
-    "     echo "bbb"
-    " endif
 endfunction
-
-
-" call VimTwitterSearch#TwitterSearchCall()
-
 
 
 
