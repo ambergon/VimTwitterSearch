@@ -22,13 +22,36 @@ endif
 " リツイートを含む
 " exclude:nativeretweets
 if !exists( 'g:VimTwitterSearchOptions' )
-    let g:VimTwitterSearchOptions   = [ "exclude:replies" , "exclude:nativeretweets" ]
+    let g:VimTwitterSearchOptions   = [ "exclude:replies" , "exclude:nativeretweets" , "filter:images"]
 endif
 
 
+" 指定バッファ名のウィンドウがあればそれに移動。 return 0
+" 無ければ何ももしない。                         return 1
+function! s:SwitchToBufferByName(buffer_name)
+    " 現在のウィンドウ番号を保存
+    let l:current_win = winnr()
+    " 全てのウィンドウをループ
+    for l:win in range(1, winnr('$'))
+        " ウィンドウを移動
+        execute l:win . 'wincmd w'
+        " 現在のウィンドウのバッファ名を取得
+        let l:bufname = bufname('%')
+        " バッファ名が指定された名前と一致するか確認
+        if l:bufname == a:buffer_name
+            " 一致する場合、そのウィンドウに移動して終了
+            return
+        endif
+    endfor
+    " 一致するウィンドウが見つからなかった場合、\w9元のウィンドウに戻る
+    execute l:current_win . 'wincmd w'
+    vs VimTwitter://Search
+endfunction
+
 
 function! VimTwitterSearch#TwitterSearch()
-    vs VimTwitter://Search
+
+    call s:SwitchToBufferByName( 'VimTwitter://Search' )
 
     setl bufhidden=delete
     setl buftype=nowrite
