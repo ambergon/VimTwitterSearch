@@ -3,6 +3,7 @@
 
 "g:VimTwitterSearchArray無ければ～。
 "execluedをどうするか。
+"カーソル位置
 
 
 
@@ -47,6 +48,11 @@ function! VimTwitterSearch#TwitterSearch()
     " call append( 7 , "exclude:nativeretweets")
     " 最終行を削除
     call deletebufline('%' , '$' )
+
+
+    cursor( 1 , 11 ) 
+
+
 endfunction
 
 
@@ -94,7 +100,7 @@ function! VimTwitterSearch#TwitterSearchCall()
                     endif
 
                     " マッチするなら半角スペースでつなげる。
-                    let l:query = l:query . " " . l:line
+                    let l:query = l:query . l:line . " "
 
                 endif
             endfor
