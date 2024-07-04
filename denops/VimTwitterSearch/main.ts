@@ -23,8 +23,8 @@ export const main: Entrypoint = (denops) => {
 
         // Vimから呼び出したい関数を設定
         encode( URL ) {
-            console.log( "call denops twitter ");
-            // return encodeURIComponent( URL );
+            // console.log( "call denops twitter ");
+            return encodeURIComponent( URL );
             // return `Hello, ${name || "Denops"}!`;
         },
     };

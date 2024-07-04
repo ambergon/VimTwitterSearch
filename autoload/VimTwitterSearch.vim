@@ -114,9 +114,15 @@ function! VimTwitterSearch#TwitterSearchCall()
     endfor
     " echo l:query
     " パーセントエンコーディング
-    call denops#request( 'VimTwitterSearch', 'encode' , [ l:query ] )
+    let l:query = denops#request( 'VimTwitterSearch', 'encode' , [ l:query ] )
     " denops#request( '${name}', 'encode' , [<q-args>])`,
 
+
+    echo l:query 
+
+
+    " vimscriptにおいて、
+    " 関数の戻り値をl:arg に代入するには?
 
 
 
