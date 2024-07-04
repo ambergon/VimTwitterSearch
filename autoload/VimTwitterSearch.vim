@@ -97,15 +97,14 @@ function! VimTwitterSearch#TwitterSearchCall()
         " if match( l:line , "^filter:" ) == 0 || match( l:line , "^include:" ) == 0 || match( l:line , "^execlued:" ) == 0 
         if match( l:line , "^execlued:" ) == 0 
             let l:query = l:query . l:line . " "
-            continue
         endif
     endfor
     " echo l:query
+    " 文末のスペースを処理
+    let l:query = substitute( l:query , ' $', '', '')
     " パーセントエンコーディング
     " denops#request( '${name}', 'encode' , [<q-args>])`,
     let l:query = denops#request( 'VimTwitterSearch', 'encode' , [ l:query ] )
-    " 文末のスペースを処理
-    let l:query = substitute( l:query , ' $', '', '')
 
     " echo l:query 
     let l:url = l:BASE_URL . l:query
