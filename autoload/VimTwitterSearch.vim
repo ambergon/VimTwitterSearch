@@ -50,7 +50,7 @@ function! VimTwitterSearch#TwitterSearch()
     call deletebufline('%' , '$' )
 
 
-    cursor( 1 , 11 ) 
+    call cursor( 1 , 11 ) 
 
 
 endfunction
