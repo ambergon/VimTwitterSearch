@@ -70,8 +70,8 @@ function! VimTwitterSearch#TwitterSearchCall()
 
         " 左辺:右辺 が存在する行のみ判定する。
         let l:pattern = '^\s*\S\+\s*:\s*\S\+\s*$'
-        if l:line =~ l:pattern
-
+        if match( l:line , l:pattern) == 0
+        " if l:line =~ l:pattern
             for l:item in g:VimTwitterSearchWords
                 " マッチするか調査する。
                 " if match( l:line , '^from:' ) == 0
@@ -89,24 +89,20 @@ function! VimTwitterSearch#TwitterSearchCall()
                     let l:query = l:query . l:line . " "
                     continue
                 endif
-
             endfor
         endif
 
-        " include / execlued / filterから始まる行なら追加する。
-        " if match( l:line , "^filter:" ) == 0 || match( l:line , "^include:" ) == 0 || match( l:line , "^execlued:" ) == 0 
-        if match( l:line , "^execlued:" ) == 0 
+        " include / exclude / filterから始まる行なら追加する。
+        if match( l:line , "^filter:" ) == 0 || match( l:line , "^include:" ) == 0 || match( l:line , "^exclude:" ) == 0 
             let l:query = l:query . l:line . " "
         endif
     endfor
-    " echo l:query
+    echo l:query
     " 文末のスペースを処理
     let l:query = substitute( l:query , ' $', '', '')
     " パーセントエンコーディング
-    " denops#request( '${name}', 'encode' , [<q-args>])`,
     let l:query = denops#request( 'VimTwitterSearch', 'encode' , [ l:query ] )
 
-    " echo l:query 
     let l:url = l:BASE_URL . l:query
     " 開く。
     call openbrowser#open( l:url )
