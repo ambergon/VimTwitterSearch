@@ -107,7 +107,7 @@ function! VimTwitterSearch#TwitterSearchCall()
 
     " echo l:query 
     let l:url = l:BASE_URL . l:query
-    call openbrowser#open( l:query )
+    call openbrowser#open( l:url )
 
 
     " vimscriptにおいて、
