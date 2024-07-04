@@ -1,6 +1,8 @@
 
 
 
+"g:VimTwitterSearchArray無ければ～。
+"execluedをどうするか。
 
 
 
@@ -49,14 +51,6 @@ endfunction
 
 
 
-
-
-
-
-
-
-
-
 " call VimTwitterSearch#TwitterSearch()
 
 
@@ -64,15 +58,9 @@ endfunction
 " 現在のバッファ名をチェックする。
 function! VimTwitterSearch#TwitterSearchCall()
 
-    " マッチするか確かめ、
-    " queryに流す。
-
-
+    let l:BASE_URL = 'https://twitter.com/search?q='
     " 行数を取得
     " echo line('$')
-
-
-
     let l:query = ""
     for l:line in getline( 0 , '$')
 
@@ -117,8 +105,9 @@ function! VimTwitterSearch#TwitterSearchCall()
     let l:query = denops#request( 'VimTwitterSearch', 'encode' , [ l:query ] )
     " denops#request( '${name}', 'encode' , [<q-args>])`,
 
-
-    echo l:query 
+    " echo l:query 
+    let l:url = l:BASE_URL . l:query
+    call openbrowser#open( l:query )
 
 
     " vimscriptにおいて、
