@@ -114,7 +114,8 @@ function! VimTwitterSearch#TwitterSearchCall()
     endfor
     " echo l:query
     " パーセントエンコーディング
-    call denops#request( 'VimTwitterSearch', 'encode' , l:query )
+    call denops#request( 'VimTwitterSearch', 'encode' , [ l:query ] )
+    " denops#request( '${name}', 'encode' , [<q-args>])`,
 
 
 
