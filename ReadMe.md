@@ -9,7 +9,7 @@
 
 
 ## Usage
-<img src="./Tutorial.Tutorial.gif" alt="Tutorial Image">
+<img src="./Tutorial/Tutorial.gif" alt="Tutorial Image">
 <br>
 <br>TwitterSearch
 <br>コマンドを使用することで、各種クエリが書き込まれたバッファーが開かれます。
