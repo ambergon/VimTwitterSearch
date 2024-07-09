@@ -54,12 +54,16 @@ https://github.com/user/VimTwitterSearch.vim
 
 ==============================================================================
 使い方						*VimTwitterSearch-usage*
+
 TwitterSearch
 コマンドを使用することで、各種クエリが書き込まれたバッファーが開かれます。
 
+TwitterSearchOpen
+コマンドを使用することで、現在のバッファーの内容でブラウザを開きます。
+
 g:VimTwitterSearchWords = []
 を編集することで、このバッファに書き込まれる内容が変化します。
-配列内部の 'SearchWord:' は必須です。
+配列内部の 'SearchWord:' 要素は必須です。
 
 またオプションとして
 g:VimTwitterSearchOptions = []
@@ -67,8 +71,6 @@ g:VimTwitterSearchOptions = []
 filter:/include:/exclude:から始まる要素を格納します。
 接頭辞に!などを付けておくことでバッファーに含むが無視することができます。
 
-TwitterSearchOpen
-コマンドを使用することで、現在のバッファーの内容でブラウザを開きます。
 
 
 
