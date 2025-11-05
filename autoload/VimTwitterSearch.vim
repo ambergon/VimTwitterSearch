@@ -10,7 +10,7 @@
 " SearchWord: だけは固定とする。
 " 無ければデフォルトとしてこれを使う。
 if !exists( 'g:VimTwitterSearchWords' )
-    let g:VimTwitterSearchWords     = [ "SearchWord:" , "from:" , "to:" , "since:" , "until:" ]
+    let g:VimTwitterSearchWords     = [ "SearchWord:" , "from:@" , "to:" , "since:" , "until:" ]
 endif
 
 
